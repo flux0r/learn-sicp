@@ -1,26 +1,3 @@
-;; 
-;; THE ELEMENTS OF PROGRAMMING
-;;
-;; The general form of a procedure definition is
-;;      (define (<name> <formal parameters>)
-;;          <body>) .
-;;
-;; The general form of a conditional expression is
-;;      (cond   (<p1> <e1>)
-;;              (<p2> <e2>)
-;;              ...
-;;              (<pn> <en>)) 
-;;  where the groups (<p> <e>) are called clauses. The p in each clause is a
-;;  predicate and the e is aconsequent expression.
-;;
-;;  The general form of an if expression is
-;;      (if <predicate> <consequent> <alternative>) .
-;;  Some primitive predicates are <, =, and >. There are also logical
-;;  composition operations. Three are
-;;      (and <e1> ... <en>) ,
-;;      (or <e1> ... <en>) ,
-;;      (not <e>) .
-
 ;; Helpers.
 (define (square x) (* x x))
 (define (cube x) (* (square x) x))
