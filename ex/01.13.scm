@@ -1,9 +1,9 @@
 ;-----------------------------------------------------------------------------
 ; | Prove that Fib(n) is the closest integer to theta^n/5, where
 ;
-;           theta = (1 + sqrt(5))/2.
+;           phi = (1 + sqrt(5))/2.
 ;
-; Hint: Let  upsilon = (1 - sqrt(5))/2. Use induction and the definition of
+; Hint: Let psi = (1 - sqrt(5))/2. Use induction and the definition of
 ; the Fibonacci numbers (see section 1.2.2) to prove that
 ;
 ;           Fib(n) = (theta^n - upsilon^n)/sqrt(5).
