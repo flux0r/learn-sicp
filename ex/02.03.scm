@@ -24,14 +24,10 @@
 (define (short-rect x)
   (cdr x))
 
-(define (show-rect x)
-  (newline)
-  (show-segment (long-rect x))
-  (show-segment (short-rect x)))
-
 
 ;-----------------------------------------------------------------------------
-; | Make a rectangle from two opposite corners.
+; | Make a rectangle from two opposite corners. This representation can use
+; the same perimeter and area procedures as make-rect.
 (define (make-rect1 pt1 pt2)
   (let ((side1 (make-segment pt1
                              (make-point (x-point pt1) (y-point pt2))))
@@ -118,11 +114,6 @@
 
 (define (end-segment x)
   (cdr x))
-
-(define (show-segment x)
-  (show-point (start-segment x))
-  (display " ------ ")
-  (show-point (end-segment x)))
 
 
 ;-----------------------------------------------------------------------------
