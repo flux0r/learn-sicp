@@ -36,6 +36,10 @@
 ; minus the lower bound of the second. For example, [6, 9] - [2, 4] is 
 ; 
 ;       [(6 - 4), (9 - 2)] = [2, 7].
+;
+; It works for overlapping intervals, too: [4.5, 9.3] - [1.7, 4.9] is
+;
+;       [-0.4, 7.6].
 
 
 (define (sub-interval x y)
