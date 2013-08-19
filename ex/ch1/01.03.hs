@@ -1,4 +1,4 @@
-import Prelude hiding (product, sum)
+import Prelude hiding (product, sqrt, sum)
 
 cube x = x*x*x
 
@@ -86,4 +86,80 @@ smallestDivisor = flip findDivisor $ 2
 
 prime x = smallestDivisor x == x
 
+relativelyPrime x n = gcd x n == 1
+
 sumSquaresPrime = filteredAccumulate (+) 0 prime (^2) (+ 1)
+
+productRelativelyPrime n =
+    filteredAccumulate (*) 1 (relativelyPrime n) id (+ 1) 1 (n - 1)
+
+
+------------------------------------------------------------------------------
+-- | Exercise 1.34
+
+f g = g 2
+
+-- Applying f to itself.
+--
+--     f f = f 2
+--         = 2 2.
+--
+-- This doesn't make sense because 2 isn't a procedure. Haskell actually won't
+-- let me do this because of a type error. The type of f is
+--     
+--     Num a => (a -> b) -> b,
+--
+-- which means it takes a function from a numeric type to some other type and
+-- returns a value of the other type. Since f is not a function taking a
+-- numeric type to another type, f f is a type error.
+
+eps = last . map (subtract 1) . takeWhile (/= 1) .
+      map (+ 1) . iterate (/2) $ 1
+
+closeEnough x y = abs (x - y) < eps**0.9
+
+average = ((/2) .) . (+)
+
+search f a b =
+    if closeEnough a b
+        then midpoint
+        else iter $ f midpoint
+  where
+    midpoint = average a b
+    iter x
+      | x > 0       = search f a midpoint
+      | x < 0       = search f midpoint b
+      | otherwise   = midpoint
+
+halfIntervalMethod f x y
+  | fx < 0 && fy > 0    = Right $ search f x y
+  | fx > 0 && fy < 0    = Right $ search f y x
+  | otherwise           = Left $ ("halfIntervalMethod: values have the " ++
+                                  "same sign", (fx, fy))
+  where
+    fx = f x
+    fy = f y
+
+fixedPoint f guess = let next = f guess in
+    if closeEnough guess next
+        then next
+        else fixedPoint f next
+
+sqrt x = fixedPoint (\ y -> average y (x/y)) 1.0
+
+
+------------------------------------------------------------------------------
+-- | Exercise 1.35
+--
+--            1 + sqrt(5)
+--     phi  = ----------- .
+--                 2
+--
+--     f(x) =   x   = 1 + 1/x
+--              x^2 = x + 1
+--              0   = x^2 - x - 1
+--                    1 +- sqrt(5)
+--              0   = ------------ .
+--                         2
+
+phi = fixedPoint (\ x -> 1 + 1/x) 1.0
