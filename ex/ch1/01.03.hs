@@ -116,7 +116,7 @@ f g = g 2
 eps = last . map (subtract 1) . takeWhile (/= 1) .
       map (+ 1) . iterate (/2) $ 1
 
-closeEnough x y = abs (x - y) < eps**0.9
+closeEnough x y = abs (x - y) < eps**0.5
 
 average = ((/2) .) . (+)
 
@@ -163,3 +163,39 @@ sqrt x = fixedPoint (\ y -> average y (x/y)) 1.0
 --                         2
 
 phi = fixedPoint (\ x -> 1 + 1/x) 1.0
+
+
+------------------------------------------------------------------------------
+-- | Exercise 1.36
+
+fixedPointShow :: (Double -> Double) -> Double -> IO Double
+fixedPointShow f guess = iter guess 1
+  where
+    iter x n = let next = f x in
+        putStrLn (show n ++ ":\t" ++ show x) >>
+        if closeEnough x next
+            then return next
+            else iter next $ succ n
+
+-- xToX takes 51 steps to find the answer and xToXDamped takes 14 steps.
+xToX = fixedPointShow (\ x -> log(1000)/log(x)) 1.5
+xToXDamped = fixedPointShow (\ x -> average x $ log(1000)/log(x)) 1.5
+
+
+------------------------------------------------------------------------------
+-- | Exercise 1.37
+
+-- It takes k = 12 to reach 4-digit accuracy.
+contFrac termN termD k = iter 1
+  where
+    iter x =
+        if x == k
+            then (termN x)/(termD x)
+            else (termN x)/((termD x) + iter (succ x))
+
+contFracIter termN termD k = iter (k - 1) ((termN k)/(termD k))
+  where
+    iter x acc =
+        if x == 0
+            then acc
+            else iter (x - 1) ((termN x)/(termD x + acc))
