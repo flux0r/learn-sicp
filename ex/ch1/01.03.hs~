@@ -220,7 +220,4 @@ e = (2 +) . contFrac (const 1.0) (fromIntegral . termD)
 --
 -- Continued expansion approximation of tangent function.
 
-tan x k = contFrac termN termD k
-  where
-    termN n = if n == 1 then x else x*x
-    termD d = 
+tan 
